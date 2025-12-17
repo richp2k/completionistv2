@@ -22,7 +22,7 @@ const Statistics = () => {
         <p style={{ color: "white" }}>Collections(soonTM)</p>
         <p style={{ color: "white" }}>Rankings(soonTM)</p>
       </div>
-      <p
+      {/* <p
         className="bg-dark"
         style={{
           display: "block",
@@ -35,7 +35,7 @@ const Statistics = () => {
         completionists and alike (and for{" "}
         <a href="https://www.youtube.com/watch?v=2i-CwpzULJ8">my sunshine</a>{" "}
         <a href="https://osu.ppy.sh/users/7552274">-ExGon-</a>)
-      </p>
+      </p> */}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { IAuthToken } from "../interfaces/IAuthToken";
 export const fetchAuth = async (code: string) => {
   try {
     let resp = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/fetchToken?code=${code}&returnUrl=${process.env.REACT_APP_RETUR_URL}`,
+      `${process.env.REACT_APP_BASE_API_URL}/fetchToken?code=${code}&returnUrl=${process.env.REACT_APP_RETURN_URL}`,
       {
         method: "GET",
       }

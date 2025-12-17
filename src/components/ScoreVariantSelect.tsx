@@ -2,6 +2,7 @@ import { ScoresVariant } from "../interfaces/Enums";
 import RadioGroupButton from "./_partials/RadioGroupButton";
 import RadioGroupButtons from "./RadioGroupButtons";
 
+//TODO: this is partial of StatisticsPage which is not used rn
 const ScoreVariantSelect = (props: {
   variant: ScoresVariant;
   setVariant: Function;

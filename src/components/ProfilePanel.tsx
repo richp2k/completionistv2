@@ -1,9 +1,33 @@
-import { useContext } from "react";
-import { IUserContext, UserContext } from "../UserContextWrapper";
 import LoginButton from "./_partials/LoginButton";
+import { useUserStore } from "../store/userStore";
+import { useProfileId } from "../hooks/useProfileId";
+import { useEffect, useState } from "react";
+import { useShallow } from "zustand/react/shallow";
+import { getUserProfileNode } from "../service/UserService";
 
 const ProfilePanel = () => {
-  const userContext = useContext<IUserContext>(UserContext);
+  //TODO fix username here
+  const authToken = useUserStore(useShallow((state) => state.authToken));
+  const username = useUserStore(useShallow((state) => state.username));
+  const userId = useUserStore(useShallow((state) => state.userId));
+  const profileId = useProfileId();
+  const [profileUsername, setProfileUsername] = useState<string>("");
+
+  useEffect(() => {
+    if (userId && profileId && userId !== profileId) {
+      try {
+        getUserProfileNode(authToken, profileId).then((profile) => {
+          setProfileUsername(profile.username);
+        });
+      } catch {
+        setProfileUsername(`userId: ${profileId}`);
+      }
+    } else if (profileId && !userId) {
+      setProfileUsername(`userId: ${profileId}`);
+    } else {
+      setProfileUsername(username);
+    }
+  }, [userId, profileId]);
 
   return (
     <div
@@ -13,15 +37,15 @@ const ProfilePanel = () => {
       <img
         className="img-thumbnail"
         src={
-          userContext.userId
-            ? `https://a.ppy.sh/${userContext.userId}`
+          profileId
+            ? `https://a.ppy.sh/${profileId}`
             : "https://osu.ppy.sh/images/layout/avatar-guest@2x.png"
         }
         alt="profile pic"
       />
-      {userContext.username && (
+      {profileUsername && (
         <h4>
-          <center>{userContext.username}</center>
+          <center>{profileUsername}</center>
         </h4>
       )}
       <LoginButton />

@@ -1,9 +1,10 @@
+import { ScoresVariant } from "../interfaces/Enums";
 import { IBeatmapsetView } from "../interfaces/IBeatmapsetView";
 import { IUserScoreView } from "../interfaces/IUserScoreView";
+import { GAMEMODE } from "../interfaces/Types";
 import {
   getBeatmapsetsForYearFullNode,
   getBeatmapsetsForYearNode,
-  getBeatmapsetsForYearWithCompletionNode,
 } from "../service/BeatmapsService";
 
 export const arrayRange = (start: number, stop: number, step: number) =>
@@ -24,44 +25,21 @@ export const getBeatmapsIdsFromBeatmapsetsView = (
 };
 
 export const fetchBeatmapsetsForYear = async (
-  gamemode: string,
+  gamemode: GAMEMODE,
+  variant: ScoresVariant,
   year: number,
   month?: number,
-  convertsOnly?: boolean
+  userId?: number
 ) => {
   let beatmapsets: any[] = [];
   const beatmapsYear = !Number.isInteger(Number(year)) ? 2007 : year;
   const beatmapsMonth = !Number.isInteger(Number(month)) ? null : month;
   beatmapsets = (await getBeatmapsetsForYearNode(
-    beatmapsYear,
     gamemode,
-    convertsOnly,
-    beatmapsMonth
-  ))!;
-
-  if (!beatmapsets) {
-    return undefined;
-  }
-
-  return beatmapsets;
-};
-
-export const fetchBeatmapsetsForYearWithCompletion = async (
-  userId: number,
-  gamemode: string,
-  year: number,
-  month?: number,
-  convertsOnly?: boolean
-) => {
-  let beatmapsets: any[] = [];
-  const beatmapsYear = !Number.isInteger(Number(year)) ? 2007 : year;
-  const beatmapsMonth = !Number.isInteger(Number(month)) ? null : month;
-  beatmapsets = (await getBeatmapsetsForYearWithCompletionNode(
+    variant,
     beatmapsYear,
     beatmapsMonth,
-    gamemode,
-    userId,
-    convertsOnly
+    userId
   ))!;
 
   if (!beatmapsets) {
@@ -71,9 +49,11 @@ export const fetchBeatmapsetsForYearWithCompletion = async (
   return beatmapsets;
 };
 
+//used to export thingy
 export const fetchBeatmapsetsForYearFull = async (
-  userId: number,
   gamemode: string,
+  variant: ScoresVariant,
+  userId: number,
   year: number,
   month?: number,
   convertsOnly?: boolean
@@ -157,4 +137,8 @@ const checkForUserScoreOnMapset = (
     beatmapset.completed = 2;
   }
   return beatmapset;
+};
+
+export const isIntNumber = (str: string): boolean => {
+  return !isNaN(parseInt(str));
 };

@@ -10,7 +10,7 @@ const SaveScreenshot = () => {
     let canvas = await html2canvas(
       document.getElementById("admin-statistics"),
       {
-        proxy: "https://corsproxy.io/?",
+        proxy: `${process.env.REACT_APP_BASE_API_URL}/proxy`,
       }
     );
     let dataURL = (canvas as any).toDataURL("image/png");
@@ -32,7 +32,7 @@ const SaveScreenshot = () => {
   const CopyCanvasAsImage = async () => {
     showCopiedToast(3000);
     html2canvas(document.getElementById("admin-statistics"), {
-      proxy: "https://corsproxy.io/?",
+      proxy: `${process.env.REACT_APP_BASE_API_URL}/proxy`,
     }).then((canvas) => {
       canvas.toBlob((blob) => {
         navigator.clipboard

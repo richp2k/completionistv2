@@ -1,5 +1,13 @@
 .App {
   min-height: 100vh;
+  padding: 0;
+}
+
+.nav-item.active {
+  /* border-bottom: 3px solid skyblue; */
+  color: skyblue;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
 }
 
 .user-statistics {
@@ -7,6 +15,25 @@
 }
 
 .modal {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.modal-content {
+  display: flex;
+  flex: 1;
+  width: fit-content;
+  margin: auto;
+  margin-top: 20px;
+  background-color: unset;
+}
+
+/* .modal {
   position: fixed;
   display: block;
   background-color: rgba(128, 128, 128, 0.2);
@@ -25,7 +52,7 @@
   margin: auto;
   left: 0;
   right: 0;
-}
+} */
 
 .no-gutters {
   padding: 0;
@@ -123,4 +150,18 @@
 
 .navbar a:focus {
   color: white;
+}
+
+.generator-field {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.generator-field > p {
+  margin-bottom: auto;
+  margin-top: auto;
+  font-size: 1.1rem;
 }

@@ -5,21 +5,22 @@ export enum ScoresVariant {
   SPECIFICCONVERT = 3,
 }
 
-export enum Completion {
-  Unplayed = 0,
-  Partial = 1,
-  Completed = 2,
+export enum COMPLETION {
+  UNPLAYED = 0,
+  PARTIAL = 1,
+  COMPLETED = 2,
 }
 
-export enum CompareOperator {
-  greater = "gt",
-  less = "lt",
-  equals = "eq",
-  between = "between",
+export enum COMPAREOPERATOR {
+  GREATER = "gt",
+  LESS = "lt",
+  EQUALS = "eq",
+  BETWEEN = "between",
 }
 
-export enum FiltersNames {
-  Misscount = "misscount",
-  Rank = "rank",
-  Completion = "completion",
+export enum FILTERNAME {
+  MISSCOUNT = "misscount",
+  RANK = "rank",
+  COMPLETION = "completion",
+  STARRATING = "starrating",
 }

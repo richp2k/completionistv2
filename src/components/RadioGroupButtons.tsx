@@ -1,11 +1,17 @@
 import { Children, cloneElement, ReactElement } from "react";
 
-const RadioGroupButtons = ({ children }) => {
+type RadioGroupButtonsProps = {
+  children: any;
+  name?: string;
+};
+
+const RadioGroupButtons = (props: RadioGroupButtonsProps) => {
   return (
     <div className="btn-group" role="group">
-      {Children.map(children, (child, idx) => {
+      {Children.map(props.children, (child, idx) => {
         return cloneElement(child as ReactElement<any>, {
           id: idx,
+          name: props.name,
         });
       })}
     </div>

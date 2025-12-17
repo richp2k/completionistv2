@@ -1,37 +1,118 @@
 import ReactDOM from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Statistics from "./Statistics";
-import UserContextWrapper from "./UserContextWrapper";
-import HowToUse from "./pages/others/HowToUse";
+import "./App.css";
+import { createHashRouter, RouterProvider } from "react-router-dom";
+import AppLoginLanding from "./components/AppLogin";
+import CollectionGenerator from "./pages/collectionsGenerator";
+import CollectionsPage from "./pages/collections";
+import AdminPage from "./pages/admin";
+import RootLayout from "./RootLayout";
+import ChangelogPage from "./pages/changelog";
+import HomePage from "./pages/home";
+import HelpPage from "./pages/help";
+import ContactPage from "./pages/contact";
+import DonatePage from "./pages/donate";
 
-const router = createBrowserRouter([
+//have to use hash router for githubpages
+const router = createHashRouter([
   {
-    path: "/completionistv2",
-    element: (
-      <UserContextWrapper>
-        <App />
-      </UserContextWrapper>
-    ),
+    path: "*",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+    ],
+  },
+  {
+    path: "/user/:profileId",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+    ],
+  },
+  {
+    path: "/collections",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <CollectionsPage />,
+      },
+    ],
+  },
+  {
+    path: "/collections/generator",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <CollectionGenerator />,
+      },
+    ],
   },
   {
     path: "/howtouse",
-    element: (
-      <UserContextWrapper>
-        <HowToUse />
-      </UserContextWrapper>
-    ),
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <HelpPage />,
+      },
+    ],
   },
   {
-    path: "/statistics",
-    element: (
-      <UserContextWrapper>
-        <Statistics />
-      </UserContextWrapper>
-    ),
+    path: "/contact",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <ContactPage />,
+      },
+    ],
+  },
+  {
+    path: "/donate",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <DonatePage />,
+      },
+    ],
+  },
+  {
+    path: "/changelog",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <ChangelogPage />,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdminPage />,
+      },
+    ],
+  },
+  // {
+  //   path: "/statistics",
+  //   element: <Statistics />,
+  // },
+  {
+    path: "/apploginlanding",
+    element: <AppLoginLanding />,
   },
 ]);
 
@@ -39,8 +120,3 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(<RouterProvider router={router} />);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

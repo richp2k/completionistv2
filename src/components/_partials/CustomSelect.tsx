@@ -6,11 +6,13 @@ export type CustomSelectValues = {
 type CustomSelectRefProps = {
   values: CustomSelectValues[];
   selectRef: React.MutableRefObject<any>;
+  style?: React.CSSProperties;
 };
 type CustomSelectStateProps = {
   values: CustomSelectValues[];
   selectState: number | string | any;
   setSelectState: React.Dispatch<number | string | any>;
+  style?: React.CSSProperties;
 };
 
 type CustomSelectProps = CustomSelectRefProps | CustomSelectStateProps;
@@ -20,7 +22,7 @@ const CustomSelect = (props: CustomSelectProps) => {
     <select
       className="form-select mx-2 my-2"
       ref={(props as CustomSelectRefProps).selectRef}
-      style={{ width: "auto", display: "inline-block" }}
+      style={{ width: "auto", display: "inline-block", ...props.style }}
     >
       {props.values.map((opt) => (
         <option value={opt.value} key={opt.value}>
@@ -31,8 +33,8 @@ const CustomSelect = (props: CustomSelectProps) => {
   );
   const stateSelect = (
     <select
-      className="form-select mx-2 my-2"
-      style={{ width: "auto", display: "inline-block" }}
+      className="form-select"
+      style={{ width: "auto", display: "inline-block", ...props.style }}
       onChange={(e) =>
         (props as CustomSelectStateProps).setSelectState(e.target.value)
       }

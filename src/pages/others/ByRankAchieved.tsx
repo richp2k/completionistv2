@@ -1,24 +1,25 @@
-import { useContext, useState } from "react";
-import GamemodeSelect from "../../components/GamemodeSelect";
+import { useState } from "react";
+import GamemodeSelect from "../home/sidePanel/_components/_partials/GamemodeSelect";
 import { getUserScoresByRankNode } from "../../service/BeatmapsService";
-import { IUserContext, UserContext } from "../../UserContextWrapper";
 import ScoreVariantSelect from "../../components/ScoreVariantSelect";
 import { ScoresVariant } from "../../interfaces/Enums";
+import { useUserSelectStore } from "../../store/store";
+import { useUserStore } from "../../store/userStore";
 
 const ByRankAchieved = () => {
-  const userContext = useContext<IUserContext>(UserContext);
-  const [gamemode, setGamemode] = useState<string>("osu");
+  const userStore = useUserStore();
+  const selectedGamemode = useUserSelectStore((state) => state.gamemode);
   const [variant, setVariant] = useState<ScoresVariant>(ScoresVariant.ALL);
   const [userScoresByRank, setUserScoresByRank] = useState(undefined);
 
   const getUserScoresByRank = async () => {
-    if (!userContext.userId) {
+    if (!userStore.userId) {
       alert("login first!");
       return;
     }
     const result = await getUserScoresByRankNode(
-      userContext.userId,
-      gamemode,
+      userStore.userId,
+      selectedGamemode,
       variant
     );
     if (!result) {
@@ -43,11 +44,7 @@ const ByRankAchieved = () => {
         width: "fit-content",
       }}
     >
-      <GamemodeSelect
-        gamemode={gamemode}
-        setGamemode={setGamemode}
-        disabled={variant === ScoresVariant.ALL}
-      />
+      <GamemodeSelect disabled={variant === ScoresVariant.ALL} />
       <ScoreVariantSelect variant={variant} setVariant={setVariant} />
       <button
         className="btn btn-primary my-3"

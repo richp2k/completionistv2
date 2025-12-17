@@ -1,5 +1,7 @@
 import { IUserScoreDbModel } from "../interfaces/db/IUserScoreDbModel";
+import { ScoresVariant } from "../interfaces/Enums";
 import { IAuthToken } from "../interfaces/IAuthToken";
+import { IUserInfo } from "../interfaces/IUserInfo";
 import { IUserScoreInfo } from "../interfaces/IUserScoreInfo";
 import { IUserScoreView } from "../interfaces/IUserScoreView";
 
@@ -83,15 +85,11 @@ export const getUserScoresOnBeatmapsNode = async (
 export const getUserCompletionNode = async (
   userId: number,
   gamemode: string,
-  convertsOnly: boolean
+  variant: ScoresVariant
 ) => {
   try {
     let resp = await fetch(
-      `${
-        process.env.REACT_APP_BASE_API_URL
-      }/getUserCompletion?userId=${userId}&gamemode=${gamemode}&convertsOnly=${
-        convertsOnly ? "true" : "false"
-      }`,
+      `${process.env.REACT_APP_BASE_API_URL}/getUserCompletion?userId=${userId}&gamemode=${gamemode}&variant=${variant}`,
       {
         method: "GET",
         headers: {
@@ -122,10 +120,10 @@ export const fetchUserScoresOnBeatmapsNode = async (
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${authTokenString}`,
       },
       body: JSON.stringify({
         userId: userId,
-        authTokenString: authTokenString,
         gamemode: gamemode ?? "osu",
         beatmapsIds: beatmapsIds,
       }),
@@ -145,28 +143,32 @@ export const fetchUserScoresOnBeatmapsNode = async (
 };
 
 export const fetchUserScoresOnBeatmapsetNode = async (
-  beatmapId: number,
+  beatmapsetId: number,
   userId: number,
   authToken: IAuthToken,
   gamemode: string
 ) => {
   try {
     let resp = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/fetchUserScoresOnBeatmapset?authTokenString=${authToken.access_token}&beatmapId=${beatmapId}&userId=${userId}&gamemode=${gamemode}`,
+      `${process.env.REACT_APP_BASE_API_URL}/fetchUserScoresOnBeatmapset`,
       {
-        method: "GET",
+        method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
           Authorization: `Bearer ${authToken.access_token}`,
         },
+        body: JSON.stringify({
+          userId: userId,
+          gamemode: gamemode ?? "osu",
+          beatmapsetId: beatmapsetId,
+        }),
       }
     );
     if (resp.ok) {
       const respJson = await resp.json();
       if (respJson.error) {
-        console.log("CANT FETCH BEATMAPS FROM OSU WEBSITE");
-        return { scores: "SC", beatmap: "ABC", rateLimitRemaining: -1 };
+        return { error: respJson.error, rateLimitRemaining: -1 };
       }
       return respJson;
     }
@@ -176,15 +178,15 @@ export const fetchUserScoresOnBeatmapsetNode = async (
 export const getUserScoresBeatmapIdsNode = async (
   userId: number,
   gamemode: string,
-  convertsOnly: boolean,
+  variant: ScoresVariant,
   year?: number
 ) => {
   try {
     let resp = await fetch(
       `${
         process.env.REACT_APP_BASE_API_URL
-      }/getUserScoresBeatmapIds?userId=${userId}&gamemode=${gamemode}&convertsOnly=${convertsOnly}${
-        year && `&year=${year}`
+      }/getUserScoresBeatmapIds?userId=${userId}&gamemode=${gamemode}&variant=${variant}${
+        year ? `&year=${year}` : ""
       }`,
       {
         method: "GET",
@@ -239,8 +241,11 @@ export const getUserScoresBeatmapIdsNode = async (
 //   } catch (err) {}
 // };
 
-export const fetchUserMe = async (authToken: IAuthToken) => {
+export const fetchUserMe = async (
+  authToken: IAuthToken
+): Promise<IUserInfo | undefined> => {
   try {
+    //TODO: do not send authToken in url - it can be easily retrieved from header - also double sending authToken here
     let resp = await fetch(
       `${process.env.REACT_APP_BASE_API_URL}/fetchUserMe?authTokenString=${authToken.access_token}`,
       {
@@ -254,10 +259,37 @@ export const fetchUserMe = async (authToken: IAuthToken) => {
     );
     if (resp.ok) {
       const respJson = await resp.json();
+      //TODO: typing
       return respJson;
     }
   } catch (err) {
     console.log("CANT FETCH BEATMAPS FROM OSU WEBSITE");
+  }
+};
+
+export const getUserProfileNode = async (
+  authToken: IAuthToken,
+  userId: number
+) => {
+  try {
+    let resp = await fetch(
+      `${process.env.REACT_APP_BASE_API_URL}/fetchUser?userId=${userId}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken.access_token}`,
+        },
+      }
+    );
+    if (resp.ok) {
+      resp = await resp.json();
+      //TODO: typing
+      return resp as any;
+    }
+  } catch (err) {
+    console.log("CANT FETCH BEATMAPS FROM NODE SERVER");
   }
 };
 
@@ -288,12 +320,14 @@ export const getUserScoresOnBeatmapsetNode = async (
 
 export const getUserScoresForYearNode = async (
   userId: number,
+  gamemode: string,
+  variant: ScoresVariant,
   year: number,
-  gamemode: string
+  month?: number
 ) => {
   try {
     let resp = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/getUserScoresForYear?userId=${userId}&year=${year}&gamemode=${gamemode}`,
+      `${process.env.REACT_APP_BASE_API_URL}/getUserScoresForYear?userId=${userId}&gamemode=${gamemode}&variant=${variant}&year=${year}`,
       {
         method: "GET",
         headers: {
