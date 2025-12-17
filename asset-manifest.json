@@ -1,19 +1,18 @@
 {
   "files": {
-    "main.css": "/completionistv2/static/css/main.ea027036.css",
-    "main.js": "/completionistv2/static/js/main.c1bf9541.js",
-    "static/js/592.af2ed451.chunk.js": "/completionistv2/static/js/592.af2ed451.chunk.js",
+    "main.css": "/completionistv2/static/css/main.aca4e98f.css",
+    "main.js": "/completionistv2/static/js/main.10ebe9de.js",
+    "static/media/completionist-collections-preview.png": "/completionistv2/static/media/completionist-collections-preview.c765fbfefe8ebb8a7cba.png",
     "static/media/mode-fruits.png": "/completionistv2/static/media/mode-fruits.31ca15cb77a1a9ad98a7.png",
     "static/media/mode-mania.png": "/completionistv2/static/media/mode-mania.84ecc71b16695cd6509c.png",
     "static/media/mode-osu.png": "/completionistv2/static/media/mode-osu.e46782cc897e1b3cab01.png",
     "static/media/mode-taiko.png": "/completionistv2/static/media/mode-taiko.f1245e606c53dd294692.png",
     "index.html": "/completionistv2/index.html",
-    "main.ea027036.css.map": "/completionistv2/static/css/main.ea027036.css.map",
-    "main.c1bf9541.js.map": "/completionistv2/static/js/main.c1bf9541.js.map",
-    "592.af2ed451.chunk.js.map": "/completionistv2/static/js/592.af2ed451.chunk.js.map"
+    "main.aca4e98f.css.map": "/completionistv2/static/css/main.aca4e98f.css.map",
+    "main.10ebe9de.js.map": "/completionistv2/static/js/main.10ebe9de.js.map"
   },
   "entrypoints": [
-    "static/css/main.ea027036.css",
-    "static/js/main.c1bf9541.js"
+    "static/css/main.aca4e98f.css",
+    "static/js/main.10ebe9de.js"
   ]
 }
